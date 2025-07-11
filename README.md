@@ -31,7 +31,7 @@ We've tested EinHops on an Intel Xeon Platinum 8480+ processor with an H100 80GB
 ## Installation
 Clone the repo and change directories:
 ```bash
-git clone https://github.com/kvgarimella/einhops.git
+git clone https://github.com/baahl-nyu/einhops.git
 cd einhops
 ```
 We recommend installing EinHops in a virtual environment using Python version 3.11. We use [`uv`](https://docs.astral.sh/uv/getting-started/installation/), but `conda` or `pyenv` would also work. For `uv`, you can run the following in the `einhops` repo:
