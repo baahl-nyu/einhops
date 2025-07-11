@@ -124,8 +124,16 @@ print("L2 norm: ", torch.norm(einhops.decrypt(attn_ckks) - attn))
 
 ## Citation
 If you found our work useful, please use the following citation:
-```
-citation placeholder
+```bash
+@misc{garimella2025einhopseinsumnotationexpressive,
+      title={EinHops: Einsum Notation for Expressive Homomorphic Operations on RNS-CKKS Tensors}, 
+      author={Karthik Garimella and Austin Ebel and Brandon Reagen},
+      year={2025},
+      eprint={2507.07972},
+      archivePrefix={arXiv},
+      primaryClass={cs.CR},
+      url={https://arxiv.org/abs/2507.07972}, 
+}
 ```
 
 ## Issues
