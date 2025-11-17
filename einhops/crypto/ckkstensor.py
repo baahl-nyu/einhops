@@ -156,8 +156,7 @@ def fhe_to_tensor(fhe_tensor):
         torch.Tensor: The clear tensor.
     """
 
-    ptxt_tensor = fhe_decrypt(fhe_tensor.slots)
-    clear_tensor = fhe_decode(ptxt_tensor)
+    clear_tensor = fhe_decrypt(fhe_tensor.slots)
     if isinstance(clear_tensor, numpy.ndarray):
         clear_tensor = torch.from_numpy(clear_tensor).to(torch.float32)
 

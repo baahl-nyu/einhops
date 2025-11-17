@@ -30,17 +30,20 @@ def create_engine():
     if torch.cuda.is_available() and gpu_vram_gb() > RAM_NEEDED:
         logger.info(f"Using GPU with {gpu_vram_gb()}GB of VRAM.")
         engine = Engine(max_level=17, mode='gpu')
+        device = 'cuda'
     elif torch.cuda.is_available():
         logger.info(f"GPU VRAM is less than {RAM_NEEDED}GB. BSGS Keys will not be generated.")
         os.environ['EINHOPS_DISABLE_BSGS_KEYS'] = '1'
         engine = Engine(max_level=17, mode='gpu')
+        device = 'cuda'
     else:
         engine = Engine(max_level=17, mode='parallel', thread_count=psutil.cpu_count(logical=False))
-    return engine
+        device = 'cpu'
+    return engine, device
 
 
 print("Creating CKKS context...")
-engine = create_engine()
+engine, device = create_engine()
 SLOT_COUNT = engine.slot_count
 MAX_LEVEL = engine.max_level
 assert SLOT_COUNT == 16384, "CKKS slot count must be 16384"
@@ -105,7 +108,7 @@ def fhe_encode(values):
     backend = get_backend()
     if backend == BackendType.TORCH:
         return values
-    return engine.encode(values)
+    return engine.encode_pytorch_tensor(values.to('cpu'))
 
 
 def fhe_decode(values):
@@ -115,7 +118,7 @@ def fhe_decode(values):
     backend = get_backend()
     if backend == BackendType.TORCH:
         return values
-    return engine.decode(values)
+    return engine.decode_to_pytorch_tensor(values)
 
 
 def fhe_encrypt(plaintext, level=MAX_LEVEL):
@@ -125,7 +128,7 @@ def fhe_encrypt(plaintext, level=MAX_LEVEL):
     backend = get_backend()
     if backend == BackendType.TORCH:
         return plaintext
-    return engine.encrypt(plaintext, public_key, level)
+    return engine.encrypt_pytorch_tensor(plaintext.to(device), public_key, level)
 
 
 def fhe_decrypt(ciphertext):
@@ -135,7 +138,7 @@ def fhe_decrypt(ciphertext):
     backend = get_backend()
     if backend == BackendType.TORCH:
         return ciphertext
-    return engine.decrypt_to_plaintext(ciphertext, secret_key)
+    return engine.decrypt_to_pytorch_tensor(ciphertext, secret_key)
 
 
 def fhe_level_down(ciphertext, level):
@@ -155,11 +158,10 @@ def fhe_add(op1, op2):
     backend = get_backend()
     if backend == BackendType.TORCH:
         return op1 + op2
-
-    if isinstance(op1, torch.Tensor):
-        op1 = fhe_encode(op1)
-    if isinstance(op2, torch.Tensor):
-        op2 = fhe_encode(op2)
+    elif isinstance(op1, torch.Tensor):
+        return engine.add_pytorch_tensor(op1.to(device), op2)
+    elif isinstance(op2, torch.Tensor):
+        return engine.add_pytorch_tensor(op1, op2.to(device))
     return engine.add(op1, op2)
 
 
@@ -178,10 +180,10 @@ def fhe_mul(op1, op2):
         return engine.multiply(op1, op2, relinearization_key)
     elif isinstance(op1, desilofhe.Ciphertext) and isinstance(op2, torch.Tensor):
         op1 = engine.rescale(op1)
-        return engine.multiply(op1, op2)
+        return engine.multiply_pytorch_tensor(op1, op2.to(device))
     else:
         op2 = engine.rescale(op2)
-        return engine.multiply(op1, op2)
+        return engine.multiply_pytorch_tensor(op1.to(device), op2)
 
 
 def fhe_rotate(op1, delta):

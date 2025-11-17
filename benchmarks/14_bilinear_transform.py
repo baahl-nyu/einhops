@@ -28,4 +28,4 @@ for i in tqdm(range(NUM_RUNS)):
 print(np.mean(times))
 print(np.std(times))
 print("validate:")
-print("L2 norm:", torch.norm(einhops.decrypt(o_ckks) - o))
+print("L2 norm:", torch.norm(einhops.decrypt(o_ckks).cpu() - o))
