@@ -22,7 +22,7 @@ assert torch.allclose(c, einhops.decrypt(c_ctxt), atol=1e-4)
 EinHops ia a system for performing tensor operations via einsum expressions in FHE (RNS-CKKS). The high level goal of EinHops is to build a *simple* packing strategy that provides transparency into how your data is arranged within ciphertext slots and provide a minimalist implementation. We decompose einsum expressions into a series of FHE-friendly operations and implement each step directly in Python. For more information, check out our [paper](https://arxiv.org/abs/2507.07972)!
 
 ## Requirements
-- Python 3.11
+- Python 3.11 or greater
 - 3GB RAM (low memory mode) or 32GB RAM (full BSGS keys)
 - (Optional) NVIDIA GPU with CUDA 12.x
 
