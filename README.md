@@ -39,7 +39,7 @@ We recommend installing EinHops in a virtual environment using Python version 3.
 uv venv --python 3.11
 source .venv/bin/activate
 ```
-You should now see `(einhops)` at the beginning of your shell prompt. Next, we will make sure to install the correct [Desilo FHE library](https://fhe.desilo.dev/latest/install/) based on your system setup. See more details [here](https://fhe.desilo.dev/latest/install/).
+You should now see `(einhops)` at the beginning of your shell prompt. Next, we will make sure to install the correct [Desilo FHE library](https://fhe.desilo.dev/latest/install/) version based on your system setup. See more details [here](https://fhe.desilo.dev/latest/install/).
 
 ### CPU Installation
 If you wish to install EinHops to run on your CPU, run:
