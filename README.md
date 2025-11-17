@@ -39,7 +39,7 @@ We recommend installing EinHops in a virtual environment using Python version 3.
 uv venv --python 3.11
 source .venv/bin/activate
 ```
-You should now see `(einhops)` at the beginning of your shell prompt. Next, we will make sure to install the correct [Desilo FHE library](https://fhe.desilo.dev/latest/install/) version based on your system setup. See more details [here](https://fhe.desilo.dev/latest/install/).
+You should now see `(einhops)` at the beginning of your shell prompt. Next, we will make sure to install the correct [Desilo FHE library](https://fhe.desilo.dev/latest/install/) version based on your system setup.
 
 ### CPU Installation
 If you wish to install EinHops to run on your CPU, run:
@@ -48,7 +48,7 @@ uv pip install -e."[cpu]"
 ```
 
 ### GPU Installation
-If you have an NVIDIA GPU and CUDA version >=12.1, you can install the appropriate Desilo version by checking your CUDA version (top right corner of `nvidia-smi`). In our case, we have version 12.8 so we run:
+If you have an NVIDIA GPU and CUDA version >=12.1, you can install the appropriate Desilo version by checking your CUDA version (top right corner of `nvidia-smi`). More details on Desilo GPU versions can be found [here](https://fhe.desilo.dev/latest/install/). In our case, we have version 12.8 so we run:
 ```bash
 uv pip install -e ."[cuda128]"  # or cuda121, cuda124, cuda126, cuda129, cuda130
 ```
