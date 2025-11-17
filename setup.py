@@ -11,8 +11,17 @@ setup(
         "torch==2.7.1",
         "tqdm==4.67.1",
         "pytest==8.4.1",
-        "pytest-cov==6.2.1"
+        "pytest-cov==6.2.1",
     ],
+    extras_require={
+        "cpu": ["desilofhe"],
+        "cuda121": ["desilofhe-cu121"],
+        "cuda124": ["desilofhe-cu124"],
+        "cuda126": ["desilofhe-cu126"],
+        "cuda128": ["desilofhe-cu128"],
+        "cuda129": ["desilofhe-cu129"],
+        "cuda130": ["desilofhe-cu130"],
+    },
     python_requires=">=3.11",
     description="Einsum notation for expressive homomorphic operations on RNS-CKKS tensors",
     author="Karthik Garimella",

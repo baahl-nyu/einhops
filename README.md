@@ -39,23 +39,20 @@ We recommend installing EinHops in a virtual environment using Python version 3.
 uv venv --python 3.11
 source .venv/bin/activate
 ```
-You should now see `(einhops)` at the beginning of your shell prompt. Install EinHops within this virtual environment:
-```bash
-uv pip install -e .
-```
-### FHE Backend
-You also need to install the [Desilo FHE library](https://fhe.desilo.dev/latest/install/).
+You should now see `(einhops)` at the beginning of your shell prompt. Next, we will make sure to install the correct [Desilo FHE library](https://fhe.desilo.dev/latest/install/) based on your system setup. See more details [here](https://fhe.desilo.dev/latest/install/).
 
-#### GPU
-If you have an NVIDIA GPU and CUDA 12, you can install the appropriate Desilo version by checking your CUDA version (top right corner of `nvidia-smi`). In our case, we have version 12.8 so we run:
+### CPU Installation
+If you wish to install EinHops to run on your CPU, run:
 ```bash
-uv pip install desilofhe-cu128
- ```
-#### CPU
-If you do not have an NVIDIA GPU, install Desilo using:
-```bash
-uv pip install desilofhe
+uv pip install -e .[cpu]
 ```
+
+### GPU Installation
+If you have an NVIDIA GPU and CUDA version >=12.1, you can install the appropriate Desilo version by checking your CUDA version (top right corner of `nvidia-smi`). In our case, we have version 12.8 so we run:
+```bash
+uv pip install -e .[cuda128]  # or cuda121, cuda124, cuda126, cuda129, cuda130
+```
+
 You should now be able to run the examples within the `examples` folder.
 
 ## Tests
@@ -126,13 +123,13 @@ print("L2 norm: ", torch.norm(einhops.decrypt(attn_ckks) - attn))
 If you found our work useful, please use the following citation:
 ```bash
 @misc{garimella2025einhopseinsumnotationexpressive,
-      title={EinHops: Einsum Notation for Expressive Homomorphic Operations on RNS-CKKS Tensors}, 
+      title={EinHops: Einsum Notation for Expressive Homomorphic Operations on RNS-CKKS Tensors},
       author={Karthik Garimella and Austin Ebel and Brandon Reagen},
       year={2025},
       eprint={2507.07972},
       archivePrefix={arXiv},
       primaryClass={cs.CR},
-      url={https://arxiv.org/abs/2507.07972}, 
+      url={https://arxiv.org/abs/2507.07972},
 }
 ```
 
