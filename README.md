@@ -99,7 +99,7 @@ a_ckks = einhops.encrypt(a)
 o_ckks = einhops.einsum("ij->j", a_ckks)
 
 print(o)
-print(einhops.decrypt(o))
+print(einhops.decrypt(o_ckks))
 ```
 ### Multi-Head Self-Attention Scores
 ```python
