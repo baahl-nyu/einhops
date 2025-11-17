@@ -27,15 +27,22 @@ def create_engine():
     Creates a Desilo FHE engine based upon the system's resources.
 
     """
-    if torch.cuda.is_available() and gpu_vram_gb() > RAM_NEEDED:
-        logger.info(f"Using GPU with {gpu_vram_gb()}GB of VRAM.")
-        engine = Engine(max_level=17, mode='gpu')
-        device = 'cuda'
-    elif torch.cuda.is_available():
-        logger.info(f"GPU VRAM is less than {RAM_NEEDED}GB. BSGS Keys will not be generated.")
-        os.environ['EINHOPS_DISABLE_BSGS_KEYS'] = '1'
-        engine = Engine(max_level=17, mode='gpu')
-        device = 'cuda'
+    if torch.cuda.is_available():
+        try:
+            if gpu_vram_gb() > RAM_NEEDED:
+                logger.info(f"Using GPU with {gpu_vram_gb()}GB of VRAM.")
+                engine = Engine(max_level=17, mode='gpu')
+                device = 'cuda'
+            else:
+                logger.info(f"GPU VRAM is less than {RAM_NEEDED}GB. BSGS Keys will not be generated.")
+                os.environ['EINHOPS_DISABLE_BSGS_KEYS'] = '1'
+                engine = Engine(max_level=17, mode='gpu')
+                device = 'cuda'
+        except Exception as e:
+            logger.warning(f"GPU mode not available (likely CPU-only desilofhe installed): {e}")
+            logger.info("Falling back to CPU mode.")
+            engine = Engine(max_level=17, mode='parallel', thread_count=psutil.cpu_count(logical=False))
+            device = 'cpu'
     else:
         engine = Engine(max_level=17, mode='parallel', thread_count=psutil.cpu_count(logical=False))
         device = 'cpu'

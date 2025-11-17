@@ -44,13 +44,13 @@ You should now see `(einhops)` at the beginning of your shell prompt. Next, we w
 ### CPU Installation
 If you wish to install EinHops to run on your CPU, run:
 ```bash
-uv pip install -e .[cpu]
+uv pip install -e."[cpu]"
 ```
 
 ### GPU Installation
 If you have an NVIDIA GPU and CUDA version >=12.1, you can install the appropriate Desilo version by checking your CUDA version (top right corner of `nvidia-smi`). In our case, we have version 12.8 so we run:
 ```bash
-uv pip install -e .[cuda128]  # or cuda121, cuda124, cuda126, cuda129, cuda130
+uv pip install -e ."[cuda128]"  # or cuda121, cuda124, cuda126, cuda129, cuda130
 ```
 
 You should now be able to run the examples within the `examples` folder.
